@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     marginBottom: "10px",
   },
   searchBox: {
-    width: "330px",
+    width: "160px",
   },
   tagsList: {
     display: "flex",

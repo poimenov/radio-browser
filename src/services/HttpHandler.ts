@@ -15,7 +15,7 @@ export class HttpHandler {
     const uri = new URL(baseUrl);
     
     parameters.forEach(([key, value]) => {
-      uri.searchParams.append(encodeURIComponent(key), encodeURIComponent(value));
+      uri.searchParams.append(key, value);
     });
     
     return uri;
