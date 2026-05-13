@@ -14,6 +14,7 @@ import {
   Heart20Regular,
   CursorClick20Regular,
   Flag20Regular,
+  Tag20Regular,
 } from "@fluentui/react-icons";
 
 interface SidebarProps {
@@ -89,7 +90,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
           positioning={positioning}
         >
           <NavItem icon={<Flag20Regular />} value="/countries">
-            Countries
+            By Country
+          </NavItem>
+        </Tooltip>
+        <Tooltip content="Tags" relationship="label" positioning={positioning}>
+          <NavItem icon={<Tag20Regular />} value="/tags">
+            By Tag
           </NavItem>
         </Tooltip>
         <Tooltip

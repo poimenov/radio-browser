@@ -2,7 +2,7 @@ import { useAppState } from "../contexts/AppStateContext";
 import { useServices } from "../contexts/ServicesContext";
 import { useCallback, useEffect, useState, useRef } from "react";
 
-export const useCountries = () => {
+export const useTags = () => {
   const { listsService } = useServices();
   const { state, dispatch } = useAppState();
 
@@ -11,9 +11,9 @@ export const useCountries = () => {
   const [error, setError] = useState<string | null>(null);
   const loadingRef = useRef(false); // Для предотвращения дублирования запросов
 
-  const loadCountries = useCallback(async () => {
+  const loadTags = useCallback(async () => {
     // Если уже есть данные в глобальном состоянии
-    if (state.countries) return state.countries;
+    if (state.tags) return state.tags;
 
     // Предотвращаем параллельные запросы
     if (loadingRef.current) return;
@@ -23,36 +23,36 @@ export const useCountries = () => {
     setError(null);
 
     try {
-      const result = await listsService.getCountries();
+      const result = await listsService.getTags(); // Исправлено: было getCountries()
 
       if (result.ok) {
-        dispatch({ type: "SET_COUNTRIES", payload: result.value });
+        dispatch({ type: "SET_TAGS", payload: result.value });
         return result.value;
       } else {
         throw new Error(result.error);
       }
     } catch (err) {
       const errorMessage =
-        err instanceof Error ? err.message : "Failed to load countries";
+        err instanceof Error ? err.message : "Failed to load tags";
       setError(errorMessage);
       throw err;
     } finally {
       setIsLoading(false);
       loadingRef.current = false;
     }
-  }, [state.countries, listsService, dispatch]);
+  }, [state.tags, listsService, dispatch]);
 
-  // Автоматическая загрузка
+  // Автоматическая загрузка при первом использовании
   useEffect(() => {
-    if (!state.countries && !loadingRef.current) {
-      loadCountries();
+    if (!state.tags && !loadingRef.current) {
+      loadTags();
     }
-  }, [state.countries, loadCountries]);
+  }, [state.tags, loadTags]);
 
   return {
-    countries: state.countries,
+    tags: state.tags,
     isLoading, // локальное состояние
     error, // локальная ошибка
-    reload: loadCountries,
+    reload: loadTags,
   };
 };

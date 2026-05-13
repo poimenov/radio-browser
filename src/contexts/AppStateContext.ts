@@ -6,7 +6,12 @@ import React, {
   useRef,
   useEffect,
 } from "react";
-import { Station, SearchMode, Country } from "../types/services.types";
+import {
+  Station,
+  SearchMode,
+  Country,
+  NameAndCount,
+} from "../types/services.types";
 
 // Типы состояния
 interface AppState {
@@ -19,6 +24,7 @@ interface AppState {
   volume: number;
   currentMode: SearchMode | null;
   countries: Country[] | null;
+  tags: NameAndCount[] | null;
 }
 
 // Действия
@@ -31,7 +37,8 @@ type AppAction =
   | { type: "SET_PLAYING"; payload: boolean }
   | { type: "SET_VOLUME"; payload: number }
   | { type: "SET_SEARCH_MODE"; payload: SearchMode | null }
-  | { type: "SET_COUNTRIES"; payload: Country[] | null };
+  | { type: "SET_COUNTRIES"; payload: Country[] | null }
+  | { type: "SET_TAGS"; payload: NameAndCount[] | null };
 
 // Ключ для localStorage
 const VOLUME_STORAGE_KEY = "playerVolume";
@@ -58,6 +65,7 @@ const initialState: AppState = {
   volume: getInitialVolume(),
   currentMode: null,
   countries: null,
+  tags: null,
 };
 
 const appReducer = (state: AppState, action: AppAction): AppState => {
@@ -80,6 +88,8 @@ const appReducer = (state: AppState, action: AppAction): AppState => {
       return { ...state, currentMode: action.payload };
     case "SET_COUNTRIES":
       return { ...state, countries: action.payload, error: null };
+    case "SET_TAGS":
+      return { ...state, tags: action.payload, error: null };
     default:
       return state;
   }
@@ -98,6 +108,7 @@ interface AppStateContextValue {
   togglePlayback: () => void;
   setVolume: (volume: number) => void;
   setCountries: (countries: Country[] | null) => void;
+  setTags: (tags: NameAndCount[] | null) => void;
   // Регистрация audio элемента из JSX
   registerAudioElement: (element: HTMLAudioElement | null) => void;
 }
@@ -229,6 +240,10 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({
     dispatch({ type: "SET_COUNTRIES", payload: countries });
   };
 
+  const setTags = (tags: NameAndCount[] | null) => {
+    dispatch({ type: "SET_TAGS", payload: tags });
+  };
+
   const setErrorHandler = (handler: (error: Error) => void) => {
     onErrorRef.current = handler;
   };
@@ -248,6 +263,7 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({
         togglePlayback,
         setVolume,
         setCountries,
+        setTags,
         registerAudioElement,
       },
     },

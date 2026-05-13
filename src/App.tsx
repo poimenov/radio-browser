@@ -5,6 +5,8 @@ import { StationsByVotes } from "./pages/StationsByVotes";
 import { StationsByClicks } from "./pages/StationsByClicks";
 import { Favorites } from "./pages/Favorites";
 import { Countries } from "./pages/Countries";
+import { Tags } from "./pages/Tags";
+import { StationsByTag } from "./pages/StationsByTag";
 import { StationsByCountry } from "./pages/StationsByCountry";
 import { ServicesProvider } from "./contexts/ServicesContext";
 import { AppStateProvider } from "./contexts/AppStateContext";
@@ -24,6 +26,8 @@ function App(): React.ReactElement {
               path="stationsByCountry/:code"
               element={<StationsByCountry />}
             />
+            <Route path="tags" element={<Tags />} />
+            <Route path="stationsByTag/:tag" element={<StationsByTag />} />
           </Route>
         </Routes>
       </AppStateProvider>
