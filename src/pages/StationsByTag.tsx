@@ -48,7 +48,7 @@ export const StationsByTag: React.FC = () => {
       <div className={styles.header}>
         <h2>Stations By Tag: {decodedTag}</h2>
       </div>
-      <StationsList mode={mode} />
+      <StationsList key={decodedTag} mode={mode} />
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { Station } from "../types/services.types";
+import { Link } from "react-router-dom";
 import {
   makeStyles,
   tokens,
@@ -80,15 +81,19 @@ export const Player: React.FC<PlayerProps> = ({ station }) => {
       <div className={styles.info}>
         <h3 className={styles.name} title={station.name}>
           {station.countryCode?.trim() && (
-            <img
-              className={styles.flagicon}
-              title={station.country}
-              src={`./images/flags/${station.countryCode.toLowerCase()}.svg`}
-              loading="lazy"
-              alt={station.country}
-            />
+            <Link to={`/stationsByCountry/${station.countryCode}`} className={styles.flagicon} title={station.country}>
+              <img
+                className={styles.flagicon}
+                title={station.country}
+                src={`/images/flags/${station.countryCode.toLowerCase()}.svg`}
+                loading="lazy"
+                alt={station.country}
+              />
+            </Link>
           )}
-          {station.name}
+          <a target="_blank" href={station.homepage} rel="noopener noreferrer" className={styles.homepage}>
+            {station.name}
+          </a>
         </h3>
         <div className={styles.details}>
           {station.isFavorite ? <Heart16Filled /> : <Heart16Regular />}
@@ -99,7 +104,14 @@ export const Player: React.FC<PlayerProps> = ({ station }) => {
             className={styles.tags}
             title={station.tags.replace(/,/g, " • ")}
           >
-            {station.tags.replace(/,/g, " • ")}
+            {station.tags.split(/,/g).map((tag, index) => (
+              <span key={tag.trim()}>
+                {index > 0 && <span className={styles.separator}> • </span>}
+                <Link to={`/stationsByTag/${tag.trim()}`} className={styles.homepage}>
+                  {tag.trim()}
+                </Link>
+              </span>
+            ))}
           </div>
         )}
       </div>
@@ -158,7 +170,6 @@ const useStyles = makeStyles({
     padding: "4px",
     backgroundColor: "transparent",
     transition: "box-shadow 0.2s, border-color 0.2s",
-    cursor: "pointer",
     display: "flex",
     gap: "4px",
     width: "100%",
@@ -186,6 +197,13 @@ const useStyles = makeStyles({
     fontWeight: tokens.fontWeightBold,
     textOverflow: "ellipsis",
     overflow: "hidden",
+  },
+  homepage: {
+    color: tokens.colorNeutralForeground1,
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "underline",
+    },
   },
   details: {
     fontSize: tokens.fontSizeBase200,
@@ -241,5 +259,8 @@ const useStyles = makeStyles({
   volumeSlider: {
     height: "100%",
     width: "20px",
+  },
+  separator: {
+    color: tokens.colorNeutralForeground3,
   },
 });
