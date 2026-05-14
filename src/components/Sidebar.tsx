@@ -53,7 +53,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
     onToggle(!isCollapsed);
   };
 
-  const drawerWidth = isCollapsed ? "54px" : "200px";
+  const drawerWidth = isCollapsed ? "54px" : "150px";
   const positioning = isCollapsed ? "after" : "above";
 
   return (
@@ -103,7 +103,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
           </NavItem>
         </Tooltip>
         <Tooltip
-          content="Countries"
+          content="Select the country to explore its radio stations"
           relationship="label"
           positioning={positioning}
         >
@@ -111,13 +111,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
             By Country
           </NavItem>
         </Tooltip>
-        <Tooltip content="Tags" relationship="label" positioning={positioning}>
+        <Tooltip content="Select tags to explore radio stations" relationship="label" positioning={positioning}>
           <NavItem className={styles.navItem} icon={<Tag20Regular />} value="/tags">
             By Tag
           </NavItem>
         </Tooltip>
         <Tooltip
-          content="By Votes"
+          content="Top Voted Stations"
           relationship="label"
           positioning={positioning}
         >
@@ -126,7 +126,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
           </NavItem>
         </Tooltip>
         <Tooltip
-          content="By Clicks"
+          content="Top Clicked Stations"
           relationship="label"
           positioning={positioning}
         >
