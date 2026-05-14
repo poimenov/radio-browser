@@ -1,8 +1,12 @@
 import { StationsList } from "../components/StationsList";
-import { SearchMode } from "../types/services.types";
+import { Country, SearchMode } from "../types/services.types";
 import { makeStyles, tokens } from "@fluentui/react-components";
 import { useAppState } from "../contexts/AppStateContext";
+import { useCountries } from "../hooks/useCountries";
 import { useParams } from "react-router-dom";
+import {
+  Flag24Regular,
+} from "@fluentui/react-icons";
 
 const mode: SearchMode = {
   type: "search",
@@ -14,13 +18,15 @@ const useStyles = makeStyles({
     height: "calc(100% - 20px)",
   },
   containerWithPlayer: {
-    height: "calc(100% - 94px)",
+    height: "calc(100% - 90px)",
+    marginBottom: "16px",
   },
   header: {
-    height: "30px",
-    paddingBottom: "10px",
-    paddingLeft: tokens.spacingHorizontalL,
-    paddingRight: tokens.spacingHorizontalL,
+    height: "50px",
+    padding: tokens.spacingHorizontalL,
+    display: "flex",
+    alignItems: "center",
+    gap: tokens.spacingHorizontalS,
   },
   title: {
     margin: 0,
@@ -32,6 +38,7 @@ const useStyles = makeStyles({
 
 export const StationsByCountry: React.FC = () => {
   const { state } = useAppState();
+  const { countries } = useCountries();
   const styles = useStyles();
   const { code } = useParams<{ code: string }>();
   const countryCode =
@@ -39,6 +46,22 @@ export const StationsByCountry: React.FC = () => {
       ? navigator.language.split("-")[1]
       : navigator.language;
   mode.params.countryCode = code ?? countryCode;
+  const filteredCountry = (countries: Country[], code: string) => {
+    return countries.filter((c) => c.iso_3166_1 === code.toUpperCase())[0]?.name || code;
+  };
+  const countryName = (code: string): string => {
+    try {
+      if (state.countries) {
+        return filteredCountry(state.countries, code);
+      } else if (countries) {
+        return filteredCountry(countries, code);
+      } else {
+        return code;
+      }
+    } catch {
+      return code;
+    }
+  }
 
   return (
     <div
@@ -47,7 +70,8 @@ export const StationsByCountry: React.FC = () => {
       }
     >
       <div className={styles.header}>
-        <h2>Stations By Country: {mode.params.countryCode}</h2>
+        <Flag24Regular />
+        <h2>Stations By Country: {countryName(mode.params.countryCode)}</h2>
       </div>
       <StationsList mode={mode} />
     </div>

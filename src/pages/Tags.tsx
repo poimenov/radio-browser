@@ -1,19 +1,24 @@
 import { TagSelector } from "../components/TagSelector";
 import { makeStyles, tokens } from "@fluentui/react-components";
 import { useAppState } from "../contexts/AppStateContext";
+import {
+  Tag24Regular,
+} from "@fluentui/react-icons";
 
 const useStyles = makeStyles({
   container: {
     height: "calc(100% - 20px)",
   },
   containerWithPlayer: {
-    height: "calc(100% - 94px)",
+    height: "calc(100% - 90px)",
+    marginBottom: "16px",
   },
   header: {
-    height: "30px",
-    paddingBottom: "10px",
-    paddingLeft: tokens.spacingHorizontalL,
-    paddingRight: tokens.spacingHorizontalL,
+    height: "50px",
+    padding: tokens.spacingHorizontalL,
+    display: "flex",
+    alignItems: "center",
+    gap: tokens.spacingHorizontalS,
   },
 });
 
@@ -28,6 +33,7 @@ export const Tags: React.FC = () => {
       }
     >
       <div className={styles.header}>
+        <Tag24Regular />
         <h2>Select the tag</h2>
       </div>
       <TagSelector />

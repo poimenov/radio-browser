@@ -1,19 +1,24 @@
 import { CountrySelector } from "../components/CountrySelector";
 import { makeStyles, tokens } from "@fluentui/react-components";
 import { useAppState } from "../contexts/AppStateContext";
+import {
+  Flag24Regular,
+} from "@fluentui/react-icons";
 
 const useStyles = makeStyles({
   container: {
     height: "calc(100% - 20px)",
   },
   containerWithPlayer: {
-    height: "calc(100% - 94px)",
+    height: "calc(100% - 90px)",
+    marginBottom: "16px",
   },
   header: {
-    height: "30px",
-    paddingBottom: "10px",
-    paddingLeft: tokens.spacingHorizontalL,
-    paddingRight: tokens.spacingHorizontalL,
+    display: "flex",
+    alignItems: "center",
+    gap: tokens.spacingHorizontalS,
+    height: "50px",
+    padding: tokens.spacingHorizontalL,
   },
 });
 
@@ -27,6 +32,7 @@ export const Countries: React.FC = () => {
       }
     >
       <div className={styles.header}>
+        <Flag24Regular />
         <h2>Select the country</h2>
       </div>
       <CountrySelector />

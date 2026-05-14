@@ -1,71 +1,58 @@
+import { StationsList } from "../components/StationsList";
+import { SearchMode } from "../types/services.types";
+import { makeStyles, tokens } from "@fluentui/react-components";
+import { useAppState } from "../contexts/AppStateContext";
 import {
-  makeStyles,
-  tokens,
-  Title1,
-  Body1,
-  Card,
-  CardHeader,
-  Button,
-  Text,
-} from '@fluentui/react-components'
+  Home24Regular,
+} from "@fluentui/react-icons";
 
 const useStyles = makeStyles({
   container: {
-    maxWidth: '1200px',
-    margin: '0 auto',
+    height: "calc(100% - 20px)",
+  },
+  containerWithPlayer: {
+    height: "calc(100% - 90px)",
+    marginBottom: "16px",
   },
   header: {
-    marginBottom: tokens.spacingVerticalXXL,
-  },
-  cardsContainer: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-    gap: tokens.spacingHorizontalXL,
-    marginTop: tokens.spacingVerticalXXL,
-  },
-  card: {
-    height: '100%',
+    height: "50px",
+    padding: tokens.spacingHorizontalL,
+    display: "flex",
+    alignItems: "center",
+    gap: tokens.spacingHorizontalS,
   },
   title: {
-    display: 'block',
+    margin: 0,
+    fontSize: tokens.fontSizeHero900,
+    fontWeight: tokens.fontWeightBold,
+    color: tokens.colorNeutralForeground1,
   },
-})
+});
 
 export const Home: React.FC = () => {
-  const styles = useStyles()
+  const currentCountryCode =
+    navigator.language.indexOf("-") !== -1
+      ? navigator.language.split("-")[1]
+      : navigator.language;
+  const mode: SearchMode = {
+    type: "search",
+    params: { countryCode: currentCountryCode },
+  };
+  const { state } = useAppState();
+  const styles = useStyles();
+  mode.params.countryCode = currentCountryCode;
 
   return (
-    <div className={styles.container}>
+    <div
+      className={
+        state.selectedStation ? styles.containerWithPlayer : styles.container
+      }
+    >
       <div className={styles.header}>
-        <Title1 className={styles.title}>Hello, world!</Title1>
-        <Body1>
-          This is a React application built with Fluent UI React v9 components.
-          It includes routing, navigation, and sample pages.
-        </Body1>
+        <Home24Regular />
+        <h2>Home</h2>
       </div>
-      <div className={styles.cardsContainer}>
-        <Card className={styles.card}>
-          <CardHeader header={<Text weight="bold">Counter</Text>} />
-          <Body1>
-            Click the button to increment a counter. Demonstrates state management
-            and Fluent UI Button component.
-          </Body1>
-          <Button appearance="subtle" as="a" href="/counter">
-            Go to Counter →
-          </Button>
-        </Card>
-
-        <Card className={styles.card}>
-          <CardHeader header={<Text weight="bold">Weather Forecast</Text>} />
-          <Body1>
-            View sample weather data. Shows how to fetch and display data using
-            React hooks and Fluent UI Table component.
-          </Body1>
-          <Button appearance="subtle" as="a" href="/weather">
-            View Weather →
-          </Button>
-        </Card>
-      </div>
+      <StationsList mode={mode} />
     </div>
-  )
-}
+  );
+};

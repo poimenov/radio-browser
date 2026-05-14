@@ -168,7 +168,7 @@ const useStyles = makeStyles({
   card: {
     border: `1px solid ${tokens.colorNeutralStroke1}`,
     padding: "4px",
-    backgroundColor: "transparent",
+    backgroundColor: tokens.colorNeutralBackground1,
     transition: "box-shadow 0.2s, border-color 0.2s",
     display: "flex",
     gap: "4px",
@@ -221,7 +221,7 @@ const useStyles = makeStyles({
   buttons: {
     display: "flex",
     gap: "4px",
-    paddingRight: "20px",
+    paddingRight: "8px",
     alignItems: "center",
   },
   button: {

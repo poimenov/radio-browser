@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 const useStyles = makeStyles({
   container: {
     padding: tokens.spacingVerticalS,
-    height: "calc(100% - 30px)",
+    height: "calc(100% - 34px)",
     overflowY: "auto",
   },
   searchContainer: {
@@ -89,7 +89,7 @@ const calculateFontSize = (
 
   return Math.round(
     minSize +
-      ((maxSize - minSize) * (count - minCount)) / (maxCount - minCount),
+    ((maxSize - minSize) * (count - minCount)) / (maxCount - minCount),
   );
 };
 

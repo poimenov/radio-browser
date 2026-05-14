@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     gridAutoRows: "74px",
     gap: tokens.spacingVerticalM,
     justifyContent: "center",
-    height: "calc(100% - 30px)",
+    height: "calc(100% - 34px)",
     overflowY: "auto",
     padding: `0 ${tokens.spacingHorizontalL}`,
     ...shorthands.padding(0, tokens.spacingHorizontalL),

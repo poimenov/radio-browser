@@ -11,7 +11,7 @@ import {
 const useStyles = makeStyles({
   container: {
     padding: tokens.spacingVerticalS,
-    height: "calc(100% - 30px)",
+    height: "calc(100% - 34px)",
     overflowY: "auto",
   },
   list: {

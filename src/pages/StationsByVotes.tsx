@@ -2,6 +2,9 @@ import { StationsList } from "../components/StationsList";
 import { SearchMode } from "../types/services.types";
 import { makeStyles, tokens } from "@fluentui/react-components";
 import { useAppState } from "../contexts/AppStateContext";
+import {
+  Vote24Regular,
+} from "@fluentui/react-icons";
 
 const mode: SearchMode = {
   type: "byVotes",
@@ -12,13 +15,15 @@ const useStyles = makeStyles({
     height: "calc(100% - 20px)",
   },
   containerWithPlayer: {
-    height: "calc(100% - 94px)",
+    height: "calc(100% - 90px)",
+    marginBottom: "16px",
   },
   header: {
-    height: "30px",
-    paddingBottom: "10px",
-    paddingLeft: tokens.spacingHorizontalL,
-    paddingRight: tokens.spacingHorizontalL,
+    height: "50px",
+    padding: tokens.spacingHorizontalL,
+    display: "flex",
+    alignItems: "center",
+    gap: tokens.spacingHorizontalS,
   },
   title: {
     margin: 0,
@@ -38,6 +43,7 @@ export const StationsByVotes: React.FC = () => {
       }
     >
       <div className={styles.header}>
+        <Vote24Regular />
         <h2>Top Voted Stations</h2>
       </div>
       <StationsList mode={mode} />
