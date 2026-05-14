@@ -236,6 +236,13 @@ const useStyles = makeStyles({
       width: "48px",
       height: "48px",
     },
+    "& svg": {
+      color: tokens.colorNeutralForeground2,
+      transition: "color 0.2s ease",
+    },
+    "&:hover svg": {
+      color: tokens.colorBrandForeground1,
+    },
   },
   volumePopoverSurface: {
     display: "flex",

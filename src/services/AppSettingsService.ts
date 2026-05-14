@@ -38,11 +38,17 @@ class AppSettingsService {
       this.settings = { ...defaultAppSettings, ...loadedSettings };
       this.initialized = true;
       
+      // Загружаем пользовательские настройки из localStorage (они переопределяют системные)
+      await this.loadUserSettings();
+      
       console.log('AppSettings loaded successfully');
     } catch (error) {
       console.error('Failed to load appsettings.json, using default settings:', error);
       this.settings = { ...defaultAppSettings };
       this.initialized = true;
+      
+      // Все равно пытаемся загрузить пользовательские настройки
+      await this.loadUserSettings();
     }
   }
 
@@ -134,7 +140,7 @@ class AppSettingsService {
   resetToDefault(): void {
     localStorage.removeItem('userAppSettings');
     this.settings = { ...defaultAppSettings };
-    this.loadUserSettings(); // Перезагружаем (по сути сбрасываем)
+    // Не нужно загружать заново - мы только что очистили localStorage
   }
 }
 

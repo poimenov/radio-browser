@@ -1,7 +1,6 @@
 export type OfficeColor = 
   | 'Default' 
   | 'Windows' 
-  | 'Office' 
   | 'Word' 
   | 'Excel' 
   | 'PowerPoint' 
@@ -10,6 +9,8 @@ export type OfficeColor =
 
 export interface AppSettings {
   applicationName: string;
+  isDarkMode: boolean;
+  isCollapsed: boolean;
   accentColor: OfficeColor;
   cultureName: string;
   limitCount: number;
@@ -26,6 +27,8 @@ export interface AppSettings {
 // Значения по умолчанию
 export const defaultAppSettings: AppSettings = {
   applicationName: 'RadioBrowser',
+  isDarkMode: false,
+  isCollapsed: false,
   accentColor: 'Windows',
   cultureName: 'en-US',
   limitCount: 20,

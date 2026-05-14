@@ -7,6 +7,8 @@ import {
   NavItem,
   Tooltip,
   Hamburger,
+  makeStyles,
+  tokens,
 } from "@fluentui/react-components";
 import {
   Home20Regular,
@@ -22,7 +24,23 @@ interface SidebarProps {
   onToggle: (collapsed: boolean) => void;
 }
 
+const useStyles = makeStyles({
+  navItem: {
+    "& svg": {
+      color: tokens.colorNeutralForeground2,
+      transition: "color 0.2s ease",
+    },
+    "&:hover svg": {
+      color: tokens.colorBrandForeground1,
+    },
+    "&[aria-current='page'] svg": {
+      color: tokens.colorBrandForeground1,
+    },
+  },
+});
+
 export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
+  const styles = useStyles();
   const [selected, setSelected] = React.useState(useLocation().pathname);
   const navigate = useNavigate();
 
@@ -71,7 +89,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
         }}
       >
         <Tooltip content="Home" relationship="label" positioning={positioning}>
-          <NavItem icon={<Home20Regular />} value="/">
+          <NavItem className={styles.navItem} icon={<Home20Regular />} value="/">
             Home
           </NavItem>
         </Tooltip>
@@ -80,7 +98,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
           relationship="label"
           positioning={positioning}
         >
-          <NavItem icon={<Heart20Regular />} value="/favorites">
+          <NavItem className={styles.navItem} icon={<Heart20Regular />} value="/favorites">
             Favorites
           </NavItem>
         </Tooltip>
@@ -89,12 +107,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
           relationship="label"
           positioning={positioning}
         >
-          <NavItem icon={<Flag20Regular />} value="/countries">
+          <NavItem className={styles.navItem} icon={<Flag20Regular />} value="/countries">
             By Country
           </NavItem>
         </Tooltip>
         <Tooltip content="Tags" relationship="label" positioning={positioning}>
-          <NavItem icon={<Tag20Regular />} value="/tags">
+          <NavItem className={styles.navItem} icon={<Tag20Regular />} value="/tags">
             By Tag
           </NavItem>
         </Tooltip>
@@ -103,7 +121,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
           relationship="label"
           positioning={positioning}
         >
-          <NavItem icon={<Vote20Regular />} value="/stationsByVotes">
+          <NavItem className={styles.navItem} icon={<Vote20Regular />} value="/stationsByVotes">
             By Votes
           </NavItem>
         </Tooltip>
@@ -112,7 +130,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
           relationship="label"
           positioning={positioning}
         >
-          <NavItem icon={<CursorClick20Regular />} value="/stationsByClicks">
+          <NavItem className={styles.navItem} icon={<CursorClick20Regular />} value="/stationsByClicks">
             By Clicks
           </NavItem>
         </Tooltip>

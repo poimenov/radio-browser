@@ -15,7 +15,7 @@ import {
   ToastBody,
 } from "@fluentui/react-components";
 import { useServices } from "../contexts/ServicesContext";
-import { AppSettings } from "../types/AppSettings";
+import { AppSettings, OfficeColor } from "../types/AppSettings";
 import { Sidebar } from "../components/Sidebar";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
@@ -42,28 +42,44 @@ const useStyles = makeStyles({
 });
 
 export const MainLayout: React.FC = () => {
-  const { appSettings } = useServices();
+  const { appSettings, appSettingsService } = useServices();
   const { state, registerAudioElement } = useAppState();
-
+  const [localSettings, setLocalSettings] = useState(appSettings);
   const audioRef = useRef<HTMLAudioElement>(null);
   const toasterId = useId("toaster");
   const { dispatchToast } = useToastController(toasterId);
 
-  const [isCollapsed, setIsCollapsed] = useState(
-    () => localStorage.getItem("isCollapsed") === "true",
+  const setAccentColor = useCallback(
+    (color: OfficeColor) => {
+      setLocalSettings((prev) => ({ ...prev, accentColor: color }));
+    },
+    [],
   );
-  const [isDarkMode, setIsDarkMode] = useState(
-    () => localStorage.getItem("isDarkMode") === "true",
+  const setIsDarkMode = useCallback(
+    (darkMode: boolean) => {
+      setLocalSettings((prev) => ({ ...prev, isDarkMode: darkMode }));
+    },
+    [],
+  );
+  const setIsCollapsed = useCallback(
+    (collapsed: boolean) => {
+      setLocalSettings((prev) => ({ ...prev, isCollapsed: collapsed }));
+    },
+    [],
   );
 
   useEffect(() => {
-    localStorage.setItem("isDarkMode", isDarkMode.toString());
-    localStorage.setItem("isCollapsed", isCollapsed.toString());
-  }, [isDarkMode, isCollapsed]);
+    const saveSettings = async () => {
+      await appSettingsService.saveSettings(localSettings);
+    };
+    void saveSettings();
+  }, [localSettings, appSettingsService]);
 
   // Регистрируем audio элемент в контексте
   useEffect(() => {
-    registerAudioElement(audioRef.current);
+    if (audioRef.current) {
+      registerAudioElement(audioRef.current);
+    }
   }, [registerAudioElement]);
 
   const notifyError = useCallback(
@@ -99,25 +115,6 @@ export const MainLayout: React.FC = () => {
           140: "#A1BBEC",
           150: "#B7CAF0",
           160: "#CBD8F5",
-        };
-      case "Office":
-        return {
-          10: "#060200",
-          20: "#261205",
-          30: "#401A09",
-          40: "#561F0B",
-          50: "#6C250C",
-          60: "#842A0B",
-          70: "#9C2F09",
-          80: "#B53406",
-          90: "#CE3902",
-          100: "#DE4B18",
-          110: "#E66334",
-          120: "#ED794E",
-          130: "#F48E67",
-          140: "#F9A381",
-          150: "#FDB79C",
-          160: "#FFCBB7",
         };
       case "Word":
         return {
@@ -214,39 +211,36 @@ export const MainLayout: React.FC = () => {
           150: "#DABDE7",
           160: "#E5CFEE",
         };
-      default:
+      default: // Default
         return {
-          10: "#020305",
-          20: "#111724",
-          30: "#162640",
-          40: "#193257",
-          50: "#1A3E6F",
-          60: "#194B88",
-          70: "#1458A2",
-          80: "#0866BD",
-          90: "#3073C9",
-          100: "#5081CF",
-          110: "#688FD5",
-          120: "#7E9DDA",
-          130: "#93ABE0",
-          140: "#A7BAE6",
-          150: "#BBC9EC",
-          160: "#CED8F1",
+          10: "#060204",
+          20: "#24101C",
+          30: "#3F1630",
+          40: "#561940",
+          50: "#6D1B51",
+          60: "#851C63",
+          70: "#9D1C75",
+          80: "#B71987",
+          90: "#D1149A",
+          100: "#EC08AE",
+          110: "#F43FB9",
+          120: "#F962C2",
+          130: "#FC7ECB",
+          140: "#FF97D5",
+          150: "#FFB0DE",
+          160: "#FFC7E7",
         };
     }
   }, []);
 
-  const createTheme = (isDarkMode: boolean, brandTheme: BrandVariants) =>
-    isDarkMode ? createDarkTheme(brandTheme) : createLightTheme(brandTheme);
-
-  const brandTheme = useMemo(
-    () => getBrandTheme(appSettings),
-    [appSettings, getBrandTheme],
-  );
+  const createTheme = (isDarkMode: boolean, color: OfficeColor) => {
+    const brandTheme = getBrandTheme({ ...localSettings, accentColor: color });
+    return isDarkMode ? createDarkTheme(brandTheme) : createLightTheme(brandTheme);
+  };
 
   const currentTheme = useMemo(
-    () => createTheme(isDarkMode, brandTheme),
-    [isDarkMode, brandTheme],
+    () => createTheme(localSettings.isDarkMode, localSettings.accentColor),
+    [localSettings.isDarkMode, localSettings.accentColor],
   );
 
   const styles = useStyles();
@@ -255,9 +249,14 @@ export const MainLayout: React.FC = () => {
     <FluentProvider theme={currentTheme}>
       <Toaster toasterId={toasterId} />
       <div className={styles.root}>
-        <Header isDarkMode={isDarkMode} onToggle={setIsDarkMode} />
+        <Header
+          isDarkMode={localSettings.isDarkMode}
+          setIsDarkMode={setIsDarkMode}
+          accentColor={localSettings.accentColor}
+          setAccentColor={setAccentColor}
+        />
         <div className={styles.mainContainer}>
-          <Sidebar isCollapsed={isCollapsed} onToggle={setIsCollapsed} />
+          <Sidebar isCollapsed={localSettings.isCollapsed} onToggle={setIsCollapsed} />
           <div className={styles.content}>
             <Outlet />
             {state.selectedStation && (
@@ -271,7 +270,7 @@ export const MainLayout: React.FC = () => {
         <Footer />
       </div>
 
-      {/* 👇 ОДИН audio элемент на всё приложение */}
+      {/* audio элемент для воспроизведения */}
       <audio
         ref={audioRef}
         style={{ display: "none" }}
