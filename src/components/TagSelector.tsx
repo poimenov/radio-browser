@@ -141,7 +141,7 @@ export const TagSelector: React.FC = () => {
   }, [tags, searchTerm]);
 
   const handleSearchChange = (
-    ev: SearchBoxChangeEvent,
+    _ev: SearchBoxChangeEvent,
     data: InputOnChangeData,
   ) => {
     setSearchTerm(data.value);

@@ -67,7 +67,7 @@ export const CountrySelector: React.FC = () => {
   }, [countries, searchTerm]);
 
   const handleSearchChange = (
-    ev: SearchBoxChangeEvent,
+    _ev: SearchBoxChangeEvent,
     data: InputOnChangeData,
   ) => {
     setSearchTerm(data.value);

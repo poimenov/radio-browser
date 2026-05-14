@@ -244,10 +244,6 @@ export const AppStateProvider: React.FC<{ children: ReactNode }> = ({
     dispatch({ type: "SET_TAGS", payload: tags });
   };
 
-  const setErrorHandler = (handler: (error: Error) => void) => {
-    onErrorRef.current = handler;
-  };
-
   return React.createElement(
     AppStateContext.Provider,
     {

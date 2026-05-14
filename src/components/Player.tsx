@@ -65,7 +65,7 @@ export const Player: React.FC<PlayerProps> = ({ station }) => {
   );
 
   const handleVolumeChange = useCallback(
-    (event: any, data: { value: number }) => {
+    (_event: any, data: { value: number }) => {
       setVolume(data.value);
     },
     [setVolume],

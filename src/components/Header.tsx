@@ -138,7 +138,12 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <div className={styles.header}>
       <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-        <span style={{ fontWeight: "bold" }}>Radio Browser</span>
+        <img
+          src="/logo.svg"
+          alt="Radio Icon"
+          style={{ width: "28px", height: "28px" }}
+        />
+        <span style={{ fontWeight: "bold", fontSize: "28px" }}>Radio Browser</span>
       </div>
 
       <Toolbar aria-label="App Toolbar">
