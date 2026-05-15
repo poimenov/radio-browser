@@ -1,5 +1,5 @@
 import { StationsList } from "../components/StationsList";
-import { SearchMode } from "../types/services.types";
+import { FilterMode, SearchMode } from "../types/services.types";
 import { makeStyles, tokens } from "@fluentui/react-components";
 import { useAppState } from "../contexts/AppStateContext";
 import { useParams } from "react-router-dom";
@@ -43,6 +43,9 @@ export const StationsByTag: React.FC = () => {
   // Декодируем tag из URL (так как он может содержать спецсимволы)
   const decodedTag = tag ? decodeURIComponent(tag) : "";
   mode.params.tag = decodedTag;
+  mode.params.countryCode = undefined;
+  mode.params.name = undefined;
+  const filterMode: FilterMode = { type: "tag" };
 
   return (
     <div
@@ -54,7 +57,7 @@ export const StationsByTag: React.FC = () => {
         <Tag24Regular />
         <h2>Stations By Tag: {decodedTag}</h2>
       </div>
-      <StationsList key={decodedTag} mode={mode} />
+      <StationsList key={decodedTag} mode={mode} filter={filterMode} />
     </div>
   );
 };

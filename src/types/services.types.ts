@@ -35,7 +35,10 @@ export type SearchMode =
   | { type: "favorites"; name?: string }
   | { type: "byVotes" }
   | { type: "byClicks" };
-//| { type: 'history' };
+
+export type FilterMode =
+  | { type: "country" }
+  | { type: "tag" }
 
 export interface HistoryRecord {
   startTime: Date;

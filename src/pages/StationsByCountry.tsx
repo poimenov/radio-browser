@@ -1,5 +1,5 @@
 import { StationsList } from "../components/StationsList";
-import { Country, SearchMode } from "../types/services.types";
+import { Country, FilterMode, SearchMode } from "../types/services.types";
 import { makeStyles, tokens } from "@fluentui/react-components";
 import { useAppState } from "../contexts/AppStateContext";
 import { useCountries } from "../hooks/useCountries";
@@ -27,10 +27,7 @@ const useStyles = makeStyles({
     display: "flex",
     alignItems: "center",
     gap: tokens.spacingHorizontalS,
-  },
-  title: {
-    margin: 0,
-    fontSize: tokens.fontSizeHero900,
+    fontSize: tokens.fontSizeBase500,
     fontWeight: tokens.fontWeightBold,
     color: tokens.colorNeutralForeground1,
   },
@@ -46,6 +43,8 @@ export const StationsByCountry: React.FC = () => {
       ? navigator.language.split("-")[1]
       : navigator.language;
   mode.params.countryCode = code ?? countryCode;
+  mode.params.tag = undefined;
+  mode.params.name = undefined;
   const filteredCountry = (countries: Country[], code: string) => {
     return countries.filter((c) => c.iso_3166_1 === code.toUpperCase())[0]?.name || code;
   };
@@ -62,6 +61,7 @@ export const StationsByCountry: React.FC = () => {
       return code;
     }
   }
+  const filterMode: FilterMode = { type: "country" };
 
   return (
     <div
@@ -71,9 +71,11 @@ export const StationsByCountry: React.FC = () => {
     >
       <div className={styles.header}>
         <Flag24Regular />
-        <h2>Stations By Country: {countryName(mode.params.countryCode)}</h2>
+        <span>Stations By Country:</span>
+        <img style={{ height: "16px" }} src={`/images/flags/${mode.params.countryCode.toLowerCase()}.svg`} alt={countryName(mode.params.countryCode)} />
+        <span>{countryName(mode.params.countryCode)}</span>
       </div>
-      <StationsList mode={mode} />
+      <StationsList key={mode.params.countryCode} mode={mode} filter={filterMode} />
     </div>
   );
 };

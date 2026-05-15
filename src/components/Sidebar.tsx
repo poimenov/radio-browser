@@ -54,7 +54,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
   };
 
   const drawerWidth = isCollapsed ? "54px" : "150px";
-  const positioning = isCollapsed ? "after" : "above";
+  const positioning = "after";
 
   return (
     <NavDrawer

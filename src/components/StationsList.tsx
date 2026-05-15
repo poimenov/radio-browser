@@ -1,29 +1,44 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { makeStyles, tokens, shorthands } from "@fluentui/react-components";
+import { makeStyles, tokens, SearchBox, SearchBoxChangeEvent, InputOnChangeData } from "@fluentui/react-components";
 import { useServices } from "../contexts/ServicesContext";
 import {
   Station,
   GetStationParameters,
   SearchMode,
+  FilterMode,
 } from "../types/services.types";
 import { StationCard } from "./StationCard";
 import { useInfiniteScroll } from "../hooks/useInfiniteScroll";
+import { CountryFilter } from "./CountryFilter";
+import { TagFilter } from "./TagFilter";
 
 interface StationListProps {
   mode: SearchMode;
+  filter?: FilterMode;
 }
 
 const useStyles = makeStyles({
+  container: {
+    height: "calc(100% - 34px)",
+    overflowY: "auto",
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: tokens.spacingHorizontalL,
+    paddingRight: tokens.spacingHorizontalL,
+  },
+  filters: {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+    gap: tokens.spacingVerticalM,
+    justifyContent: "center",
+    marginBottom: tokens.spacingVerticalM,
+  },
   list: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
     gridAutoRows: "74px",
     gap: tokens.spacingVerticalM,
     justifyContent: "center",
-    height: "calc(100% - 34px)",
-    overflowY: "auto",
-    padding: `0 ${tokens.spacingHorizontalL}`,
-    ...shorthands.padding(0, tokens.spacingHorizontalL),
   },
   loadMoreTrigger: {
     textAlign: "center",
@@ -141,7 +156,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const StationsList: React.FC<StationListProps> = ({ mode }) => {
+export const StationsList: React.FC<StationListProps> = ({ mode, filter }) => {
   const { stationsService } = useServices();
   const styles = useStyles();
   const [stations, setStations] = useState<Station[]>([]);
@@ -150,9 +165,10 @@ export const StationsList: React.FC<StationListProps> = ({ mode }) => {
   const [error, setError] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
-  const [currentMode] = useState<SearchMode>(mode);
+  const [currentMode, setCurrentMode] = useState<SearchMode>(mode);
   const pageSize = 40; // Количество станций за одну загрузку
   const abortControllerRef = useRef<AbortController | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   async function fetchStations(mode: SearchMode, params: GetStationParameters) {
     switch (mode.type) {
@@ -212,6 +228,13 @@ export const StationsList: React.FC<StationListProps> = ({ mode }) => {
     }
   }, [stationsService, currentMode, pageSize]);
 
+  const setMode = useCallback(
+    (mode: SearchMode) => {
+      setCurrentMode(mode);
+    },
+    []
+  );
+
   // Загрузка следующей порции
   const loadMoreStations = useCallback(async () => {
     if (loadingMore || !hasMore) return;
@@ -267,6 +290,23 @@ export const StationsList: React.FC<StationListProps> = ({ mode }) => {
     };
   }, [currentMode, loadInitialStations]);
 
+  const handleSearchChange = (
+    _ev: SearchBoxChangeEvent,
+    data: InputOnChangeData,
+  ) => {
+    setSearchTerm(data.value);
+  }
+
+  const handleKeyDown = (ev: React.KeyboardEvent<HTMLInputElement>) => {
+    if (ev.key === "Enter") {
+      ev.preventDefault();
+      if (mode.type === "search") {
+        mode.params.name = searchTerm.trim();
+        setMode({ ...mode });
+      }
+    }
+  };
+
   const renderSkeleton = () => {
     return Array.from({ length: pageSize }).map((_, index) => (
       <div key={`skeleton-${index}`} className={styles.skeletonCard}>
@@ -284,7 +324,7 @@ export const StationsList: React.FC<StationListProps> = ({ mode }) => {
   };
 
   if (loading && stations.length === 0) {
-    return <div className={styles.list}>{renderSkeleton()}</div>;
+    return <div className={styles.container}><div className={styles.list}>{renderSkeleton()}</div></div>;
   }
 
   if (error && stations.length === 0) {
@@ -299,18 +339,32 @@ export const StationsList: React.FC<StationListProps> = ({ mode }) => {
   }
 
   return (
-    <div className={styles.list}>
-      {stations.map((station, index) => (
-        <StationCard key={`${station.id}-${index}`} station={station} />
-      ))}
-      {/* Элемент-наблюдатель для бесконечной прокрутки */}
-      <div ref={loadMoreRef} className={styles.loadMoreTrigger}>
-        {loadingMore && (
-          <div className={styles.loadingMore}>
-            <div className={styles.loadingMoreSpinner} />
-            <span>Loading more stations...</span>
-          </div>
-        )}
+    <div className={styles.container}>
+      {mode.type === "search" && filter && (
+        <div className={styles.filters}>
+          <SearchBox
+            placeholder="Station name..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            onKeyDown={handleKeyDown}
+          />
+          {filter.type === "country" && <TagFilter mode={mode} setMode={setMode} />}
+          {filter.type === "tag" && <CountryFilter mode={mode} setMode={setMode} />}
+        </div>
+      )}
+      <div className={styles.list}>
+        {stations.map((station, index) => (
+          <StationCard key={`${station.id}-${index}`} station={station} />
+        ))}
+        {/* Элемент-наблюдатель для бесконечной прокрутки */}
+        <div ref={loadMoreRef} className={styles.loadMoreTrigger}>
+          {loadingMore && (
+            <div className={styles.loadingMore}>
+              <div className={styles.loadingMoreSpinner} />
+              <span>Loading more stations...</span>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

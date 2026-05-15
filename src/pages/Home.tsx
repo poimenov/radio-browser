@@ -1,5 +1,5 @@
 import { StationsList } from "../components/StationsList";
-import { SearchMode } from "../types/services.types";
+import { FilterMode, SearchMode } from "../types/services.types";
 import { makeStyles, tokens } from "@fluentui/react-components";
 import { useAppState } from "../contexts/AppStateContext";
 import {
@@ -41,6 +41,9 @@ export const Home: React.FC = () => {
   const { state } = useAppState();
   const styles = useStyles();
   mode.params.countryCode = currentCountryCode;
+  mode.params.tag = undefined;
+  mode.params.name = undefined;
+  const filterMode: FilterMode = { type: "country" };
 
   return (
     <div
@@ -52,7 +55,7 @@ export const Home: React.FC = () => {
         <Home24Regular />
         <h2>Home</h2>
       </div>
-      <StationsList mode={mode} />
+      <StationsList key={mode.params.countryCode} mode={mode} filter={filterMode} />
     </div>
   );
 };
