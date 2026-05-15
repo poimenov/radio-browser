@@ -44,7 +44,7 @@ export const Favorites: React.FC = () => {
     >
       <div className={styles.header}>
         <Heart24Regular />
-        <h2>Top Clicked Stations</h2>
+        <h2>Favorites</h2>
       </div>
       <StationsList mode={mode} />
     </div>
