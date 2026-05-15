@@ -49,6 +49,8 @@ const useStyles = makeStyles({
   title: {
     fontWeight: "bold",
     fontSize: tokens.fontSizeHero900,
+    color: tokens.colorBrandForeground2Hover,
+    WebkitTextStroke: `1px ${tokens.colorBrandStroke2Contrast}`,
     "@media (max-width: 768px)": {
       fontSize: tokens.fontSizeBase600,
     },
@@ -155,7 +157,7 @@ export const Header: React.FC<HeaderProps> = ({
         <img
           src="/logo.svg"
           alt="Radio Icon"
-          style={{ width: "28px", height: "28px" }}
+          style={{ width: "34px", height: "34px" }}
         />
         <span className={styles.title}>Radio Browser</span>
       </div>

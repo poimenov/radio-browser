@@ -37,9 +37,11 @@ const useStyles = makeStyles({
     },
   },
   navItem: {
+    textWrap: "nowrap",
     "& svg": {
       color: tokens.colorNeutralForeground2,
       transition: "color 0.2s ease",
+      pointerEvents: 'none',
     },
     "&:hover svg": {
       color: tokens.colorBrandForeground1,
