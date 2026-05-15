@@ -32,13 +32,21 @@ const useStyles = makeStyles({
     gap: tokens.spacingVerticalM,
     justifyContent: "center",
     marginBottom: tokens.spacingVerticalM,
+    "@media (max-width: 768px)": {
+      gridTemplateColumns: "1fr",
+      gap: tokens.spacingVerticalS,
+    },
   },
   list: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-    gridAutoRows: "74px",
+    gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+    gridAutoRows: "auto",
     gap: tokens.spacingVerticalM,
     justifyContent: "center",
+    "@media (max-width: 768px)": {
+      gridTemplateColumns: "1fr",
+      gap: tokens.spacingVerticalS,
+    },
   },
   loadMoreTrigger: {
     textAlign: "center",

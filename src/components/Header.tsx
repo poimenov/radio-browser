@@ -38,6 +38,20 @@ const useStyles = makeStyles({
     color: tokens.colorNeutralForegroundOnBrand,
     height: "48px",
     width: "100%",
+    "@media (max-width: 768px)": {
+      flexWrap: "wrap",
+      justifyContent: "space-between",
+      padding: `0 ${tokens.spacingHorizontalM}`,
+      height: "auto",
+      rowGap: tokens.spacingVerticalS,
+    },
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: tokens.fontSizeHero900,
+    "@media (max-width: 768px)": {
+      fontSize: tokens.fontSizeBase600,
+    },
   },
   savedIndicator: {
     fontSize: "12px",
@@ -143,7 +157,7 @@ export const Header: React.FC<HeaderProps> = ({
           alt="Radio Icon"
           style={{ width: "28px", height: "28px" }}
         />
-        <span style={{ fontWeight: "bold", fontSize: "28px" }}>Radio Browser</span>
+        <span className={styles.title}>Radio Browser</span>
       </div>
 
       <Toolbar aria-label="App Toolbar">

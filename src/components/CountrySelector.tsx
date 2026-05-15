@@ -21,6 +21,10 @@ const useStyles = makeStyles({
     gridGap: tokens.spacingHorizontalS,
     justifyContent: "center",
     width: "100%",
+    "@media (max-width: 768px)": {
+      gridTemplateColumns: "1fr",
+      gridGap: tokens.spacingVerticalS,
+    },
   },
   item: {
     borderRadius: tokens.borderRadiusMedium,
@@ -48,6 +52,9 @@ const useStyles = makeStyles({
   search: {
     width: "160px",
     margin: `${tokens.spacingHorizontalS} 0`,
+    "@media (max-width: 768px)": {
+      width: "100%",
+    },
   },
 });
 

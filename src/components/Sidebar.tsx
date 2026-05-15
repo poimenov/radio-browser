@@ -25,6 +25,17 @@ interface SidebarProps {
 }
 
 const useStyles = makeStyles({
+  navDrawer: {
+    width: "150px",
+    minWidth: "150px",
+    transition: "width 0.2s ease",
+    flexShrink: 0,
+    "@media (max-width: 768px)": {
+      width: "100% !important",
+      minWidth: "100% !important",
+      position: "relative",
+    },
+  },
   navItem: {
     "& svg": {
       color: tokens.colorNeutralForeground2,
@@ -58,6 +69,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
 
   return (
     <NavDrawer
+      className={styles.navDrawer}
       selectedValue={selected}
       onNavItemSelect={(_, data) => onNavItemChange(data.value)}
       open={true}
@@ -66,8 +78,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
       style={{
         width: drawerWidth,
         minWidth: drawerWidth,
-        transition: "width 0.2s ease",
-        flexShrink: 0,
       }}
     >
       <NavDrawerHeader>

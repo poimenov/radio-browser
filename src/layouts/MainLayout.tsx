@@ -27,17 +27,28 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     height: "100vh",
+    "@media (max-width: 768px)": {
+      height: "auto",
+    },
   },
   mainContainer: {
     display: "flex",
     flex: 1,
     overflow: "hidden",
+    "@media (max-width: 768px)": {
+      flexDirection: "column",
+      overflow: "visible",
+    },
   },
   content: {
     flexGrow: 1,
     overflowY: "auto",
     backgroundColor: tokens.colorNeutralBackground2,
     transition: "margin-left 0.2s ease",
+    "@media (max-width: 768px)": {
+      overflowY: "visible",
+      minHeight: "0",
+    },
   },
 });
 

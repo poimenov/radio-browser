@@ -173,12 +173,22 @@ const useStyles = makeStyles({
     display: "flex",
     gap: "4px",
     width: "100%",
+    alignItems: "flex-start",
+    "@media (max-width: 768px)": {
+      flexDirection: "column",
+      alignItems: "stretch",
+      padding: "8px",
+    },
   },
   favicon: {
     width: "64px",
     height: "64px",
     objectFit: "contain",
     borderRadius: tokens.borderRadiusMedium,
+    "@media (max-width: 768px)": {
+      width: "100%",
+      height: "auto",
+    },
   },
   flagicon: {
     width: "20px",
@@ -223,6 +233,11 @@ const useStyles = makeStyles({
     gap: "4px",
     paddingRight: "8px",
     alignItems: "center",
+    "@media (max-width: 768px)": {
+      flexWrap: "wrap",
+      justifyContent: "space-between",
+      paddingRight: "0",
+    },
   },
   button: {
     maxWidth: "60px",
