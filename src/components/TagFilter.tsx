@@ -43,7 +43,7 @@ export const TagFilter = ({ mode, setMode }: TagFilterProps) => {
         setValue(value);
     };
 
-    const onSelect: ComboboxProps["onOptionSelect"] = (e, data) => {
+    const onSelect: ComboboxProps["onOptionSelect"] = (_e, data) => {
         if (mode.type === "search" && data.optionText) {
             mode.params.tag = data.optionValue;
             setValue(data.optionText);
