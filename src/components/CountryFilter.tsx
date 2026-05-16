@@ -68,7 +68,7 @@ export const CountryFilter = ({ mode, setMode }: CountryFilterProps) => {
                         height: "16px",
                         pointerEvents: "none",
                     }}
-                    src={`/images/flags/${selectedCountry.iso_3166_1.toLowerCase()}.svg`}
+                    src={`./images/flags/${selectedCountry.iso_3166_1.toLowerCase()}.svg`}
                     alt={selectedCountry.name}
                 />
             )}
@@ -83,7 +83,7 @@ export const CountryFilter = ({ mode, setMode }: CountryFilterProps) => {
             >
                 {matchingOptions.map((option) => (
                     <Option key={option.iso_3166_1} text={option.name}>
-                        <Image style={{ height: "16px" }} src={`/images/flags/${option.iso_3166_1.toLowerCase()}.svg`} alt={option.name} />
+                        <Image style={{ height: "16px" }} src={`./images/flags/${option.iso_3166_1.toLowerCase()}.svg`} alt={option.name} />
                         <span style={{ width: "100%", textWrap: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{option.name}</span>
                     </Option>
                 ))}
