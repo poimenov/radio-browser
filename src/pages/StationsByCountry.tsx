@@ -72,7 +72,7 @@ export const StationsByCountry: React.FC = () => {
       <div className={styles.header}>
         <Flag24Regular />
         <span>Stations By Country:</span>
-        <img style={{ height: "16px" }} src={`/images/flags/${mode.params.countryCode.toLowerCase()}.svg`} alt={countryName(mode.params.countryCode)} />
+        <img style={{ height: "16px" }} src={`./images/flags/${mode.params.countryCode.toLowerCase()}.svg`} alt={countryName(mode.params.countryCode)} />
         <span>{countryName(mode.params.countryCode)}</span>
       </div>
       <StationsList key={mode.params.countryCode} mode={mode} filter={filterMode} />
