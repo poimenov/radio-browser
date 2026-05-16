@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import { FluentProvider, webLightTheme } from '@fluentui/react-components'
 import App from './App'
 import './App.css'
@@ -13,9 +13,9 @@ const updateSW = registerSW({
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <FluentProvider theme={webLightTheme}>
-      <BrowserRouter>
+      <HashRouter>
         <App />
-      </BrowserRouter>
+      </HashRouter>
     </FluentProvider>
   </React.StrictMode>,
 )
