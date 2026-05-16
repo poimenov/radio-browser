@@ -1,6 +1,6 @@
 export class ApiUrlProvider {
     private async getRadioBrowserBaseUrls(): Promise<string[]> {
-      const response = await fetch('http://all.api.radio-browser.info/json/servers');
+      const response = await fetch('https://all.api.radio-browser.info/json/servers');
       
       if (!response.ok) {
         throw new Error(`Failed to fetch server list: ${response.statusText}`);
