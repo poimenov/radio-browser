@@ -85,7 +85,7 @@ export const Player: React.FC<PlayerProps> = ({ station }) => {
               <img
                 className={styles.flagicon}
                 title={station.country}
-                src={`/images/flags/${station.countryCode.toLowerCase()}.svg`}
+                src={`./images/flags/${station.countryCode.toLowerCase()}.svg`}
                 loading="lazy"
                 alt={station.country}
               />
