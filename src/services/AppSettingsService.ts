@@ -27,7 +27,7 @@ class AppSettingsService {
 
   private async loadSettings(): Promise<void> {
     try {
-      const response = await fetch('/appsettings.json');
+      const response = await fetch('appsettings.json');
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }

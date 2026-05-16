@@ -35,7 +35,7 @@ export const StationCard: React.FC<StationCardProps> = ({ station }) => {
             <img
               className={styles.flagicon}
               title={station.country}
-              src={`/images/flags/${station.countryCode.toLowerCase()}.svg`}
+              src={`./images/flags/${station.countryCode.toLowerCase()}.svg`}
               loading="lazy"
               alt={station.country}
             />

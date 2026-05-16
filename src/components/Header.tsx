@@ -155,7 +155,7 @@ export const Header: React.FC<HeaderProps> = ({
     <div className={styles.header}>
       <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
         <img
-          src="/logo.svg"
+          src="./logo.svg"
           alt="Radio Icon"
           style={{ width: "34px", height: "34px" }}
         />

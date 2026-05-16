@@ -13,7 +13,7 @@ export const StationImage: React.FC<StationImageProps> = ({
   className,
   onLoad,
 }) => {
-  const defaultImageSrc = "/images/radio.svg";
+  const defaultImageSrc = "./images/radio.svg";
   const [imgSrc, setImgSrc] = React.useState(defaultImageSrc);
   const [loadFailed, setLoadFailed] = React.useState(false);
   const imgRef = React.useRef<HTMLImageElement>(null);
@@ -47,11 +47,11 @@ export const StationImage: React.FC<StationImageProps> = ({
         defaultPrevented: false,
         eventPhase: 2,
         isTrusted: true,
-        preventDefault: () => {},
+        preventDefault: () => { },
         isDefaultPrevented: () => false,
-        stopPropagation: () => {},
+        stopPropagation: () => { },
         isPropagationStopped: () => false,
-        persist: () => {},
+        persist: () => { },
         timeStamp: Date.now(),
       });
     }
