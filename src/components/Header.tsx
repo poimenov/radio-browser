@@ -10,6 +10,7 @@ import {
   MenuList,
   MenuItem,
   MenuItemRadio,
+  Hamburger,
 } from "@fluentui/react-components";
 import {
   Settings20Regular,
@@ -25,6 +26,8 @@ interface HeaderProps {
   setIsDarkMode: (darkMode: boolean) => void;
   accentColor: OfficeColor;
   setAccentColor: (color: OfficeColor) => void;
+  onMobileMenuToggle?: () => void;
+  mobileMenuOpen?: boolean;
 }
 
 const useStyles = makeStyles({
@@ -64,6 +67,12 @@ const useStyles = makeStyles({
       opacity: 1,
     },
   },
+  menuButton: {
+    display: "none",
+    "@media (max-width: 768px)": {
+      display: "inline-flex",
+    },
+  },
   colorPreview: {
     marginLeft: '8px',
     width: '12px',
@@ -77,7 +86,9 @@ export const Header: React.FC<HeaderProps> = ({
   isDarkMode,
   setIsDarkMode,
   accentColor,
-  setAccentColor
+  setAccentColor,
+  onMobileMenuToggle,
+  mobileMenuOpen,
 }) => {
   const styles = useStyles();
 
@@ -154,6 +165,14 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <div className={styles.header}>
       <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+        {onMobileMenuToggle && (
+          <Hamburger
+            className={styles.menuButton}
+            onClick={onMobileMenuToggle}
+            size="medium"
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+          />
+        )}
         <img
           src="./logo.svg"
           alt="Radio Icon"

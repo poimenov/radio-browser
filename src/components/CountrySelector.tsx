@@ -22,7 +22,7 @@ const useStyles = makeStyles({
     justifyContent: "center",
     width: "100%",
     "@media (max-width: 768px)": {
-      gridTemplateColumns: "1fr",
+      gridTemplateColumns: "repeat(auto-fill, 1fr)",
       gridGap: tokens.spacingVerticalS,
     },
   },

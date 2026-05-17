@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   NavDrawer,
@@ -22,6 +22,8 @@ import {
 interface SidebarProps {
   isCollapsed: boolean;
   onToggle: (collapsed: boolean) => void;
+  isMobileOpen?: boolean;
+  onMobileClose?: () => void;
 }
 
 const useStyles = makeStyles({
@@ -52,21 +54,64 @@ const useStyles = makeStyles({
   },
 });
 
-export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
+export const Sidebar: React.FC<SidebarProps> = ({
+  isCollapsed,
+  onToggle,
+  isMobileOpen,
+  onMobileClose,
+}) => {
   const styles = useStyles();
-  const [selected, setSelected] = React.useState(useLocation().pathname);
+  const location = useLocation();
+  const [selected, setSelected] = React.useState(location.pathname);
+  const [isMobileMode, setIsMobileMode] = React.useState(
+    typeof window !== "undefined" && window.matchMedia("(max-width: 768px)").matches,
+  );
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setSelected(location.pathname);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const updateIsMobileMode = (event: MediaQueryListEvent | MediaQueryList) => {
+      setIsMobileMode(event.matches);
+    };
+
+    updateIsMobileMode(mediaQuery);
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener("change", updateIsMobileMode);
+    } else {
+      mediaQuery.addListener(updateIsMobileMode);
+    }
+
+    return () => {
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener("change", updateIsMobileMode);
+      } else {
+        mediaQuery.removeListener(updateIsMobileMode);
+      }
+    };
+  }, []);
 
   const onNavItemChange = (data: string) => {
     setSelected(data);
     navigate(data);
+    if (onMobileClose) {
+      onMobileClose();
+    }
   };
 
   const toggleSidebar = () => {
     onToggle(!isCollapsed);
   };
 
-  const drawerWidth = isCollapsed ? "54px" : "150px";
+  const drawerWidth = isMobileMode ? "260px" : isCollapsed ? "54px" : "150px";
   const positioning = "after";
 
   return (
@@ -74,13 +119,22 @@ export const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
       className={styles.navDrawer}
       selectedValue={selected}
       onNavItemSelect={(_, data) => onNavItemChange(data.value)}
-      open={true}
+      type={isMobileMode ? "overlay" : "inline"}
       position="start"
-      type="inline"
       style={{
         width: drawerWidth,
         minWidth: drawerWidth,
       }}
+      {...(isMobileMode
+        ? {
+          onOpenChange: (_ev: unknown, data: { open?: boolean }) => {
+            if (data.open === false && onMobileClose) {
+              onMobileClose();
+            }
+          },
+        }
+        : {})}
+      open={isMobileMode ? isMobileOpen : true}
     >
       <NavDrawerHeader>
         <Tooltip

@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import {
   makeStyles,
@@ -26,29 +26,44 @@ const useStyles = makeStyles({
   root: {
     display: "flex",
     flexDirection: "column",
+    minHeight: "100vh",
     height: "100vh",
-    "@media (max-width: 768px)": {
-      height: "auto",
-    },
   },
   mainContainer: {
     display: "flex",
     flex: 1,
+    minHeight: 0,
     overflow: "hidden",
     "@media (max-width: 768px)": {
       flexDirection: "column",
-      overflow: "visible",
     },
   },
+  contentWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    minHeight: 0,
+    overflow: "hidden",
+  },
   content: {
-    flexGrow: 1,
-    overflowY: "auto",
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    minHeight: 0,
+    overflow: "hidden",
     backgroundColor: tokens.colorNeutralBackground2,
     transition: "margin-left 0.2s ease",
-    "@media (max-width: 768px)": {
-      overflowY: "visible",
-      minHeight: "0",
-    },
+  },
+  outlet: {
+    flex: 1,
+    minHeight: 0,
+    overflowY: "auto",
+  },
+  playerArea: {
+    flexShrink: 0,
+    borderTop: `1px solid ${tokens.colorNeutralStroke1}`,
+    backgroundColor: tokens.colorNeutralBackground1,
+    padding: tokens.spacingVerticalS,
   },
 });
 
@@ -78,6 +93,18 @@ export const MainLayout: React.FC = () => {
     },
     [],
   );
+
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const toggleMobileMenu = useCallback(
+    () => setIsMobileMenuOpen((prev) => !prev),
+    [],
+  );
+  const closeMobileMenu = useCallback(() => setIsMobileMenuOpen(false), []);
+  const location = useLocation();
+
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     const saveSettings = async () => {
@@ -265,16 +292,29 @@ export const MainLayout: React.FC = () => {
           setIsDarkMode={setIsDarkMode}
           accentColor={localSettings.accentColor}
           setAccentColor={setAccentColor}
+          onMobileMenuToggle={toggleMobileMenu}
+          mobileMenuOpen={isMobileMenuOpen}
         />
         <div className={styles.mainContainer}>
-          <Sidebar isCollapsed={localSettings.isCollapsed} onToggle={setIsCollapsed} />
-          <div className={styles.content}>
-            <Outlet />
+          <Sidebar
+            isCollapsed={localSettings.isCollapsed}
+            onToggle={setIsCollapsed}
+            isMobileOpen={isMobileMenuOpen}
+            onMobileClose={closeMobileMenu}
+          />
+          <div className={styles.contentWrapper}>
+            <div className={styles.content}>
+              <div className={styles.outlet}>
+                <Outlet />
+              </div>
+            </div>
             {state.selectedStation && (
-              <Player
-                key={state.selectedStation.id}
-                station={state.selectedStation}
-              />
+              <div className={styles.playerArea}>
+                <Player
+                  key={state.selectedStation.id}
+                  station={state.selectedStation}
+                />
+              </div>
             )}
           </div>
         </div>

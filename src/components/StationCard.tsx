@@ -74,12 +74,6 @@ const useStyles = makeStyles({
     ":hover": {
       border: `1px solid ${tokens.colorBrandForeground1}`,
     },
-    "@media (max-width: 768px)": {
-      flexDirection: "column",
-      alignItems: "flex-start",
-      height: "auto",
-      padding: "8px",
-    },
   },
   cardCurrent: {
     border: `1px solid ${tokens.colorBrandForeground1}`,
@@ -90,10 +84,6 @@ const useStyles = makeStyles({
     height: "64px",
     objectFit: "contain",
     borderRadius: tokens.borderRadiusMedium,
-    "@media (max-width: 768px)": {
-      width: "100%",
-      height: "auto",
-    },
   },
   flagicon: {
     width: "20px",
@@ -105,9 +95,6 @@ const useStyles = makeStyles({
     flex: 1,
     overflow: "hidden",
     whiteSpace: "nowrap",
-    "@media (max-width: 768px)": {
-      whiteSpace: "normal",
-    },
   },
   name: {
     margin: 0,
@@ -123,9 +110,6 @@ const useStyles = makeStyles({
     flexDirection: "row",
     alignItems: "center",
     gap: tokens.spacingHorizontalSNudge,
-    "@media (max-width: 768px)": {
-      flexWrap: "wrap",
-    },
   },
   tags: {
     fontSize: tokens.fontSizeBase200,

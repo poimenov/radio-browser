@@ -12,11 +12,18 @@ const mode: SearchMode = {
 
 const useStyles = makeStyles({
   container: {
-    height: "calc(100% - 20px)",
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    minHeight: 0,
+    height: "100%",
   },
   containerWithPlayer: {
-    height: "calc(100% - 90px)",
-    marginBottom: "16px",
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    minHeight: 0,
+    height: "100%",
   },
   header: {
     height: "50px",

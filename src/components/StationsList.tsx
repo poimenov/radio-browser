@@ -19,8 +19,11 @@ interface StationListProps {
 
 const useStyles = makeStyles({
   container: {
-    height: "calc(100% - 34px)",
-    overflowY: "auto",
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    minHeight: 0,
+    overflow: "hidden",
     paddingTop: 0,
     paddingBottom: 0,
     paddingLeft: tokens.spacingHorizontalL,
@@ -39,12 +42,16 @@ const useStyles = makeStyles({
   },
   list: {
     display: "grid",
+    flex: 1,
+    minHeight: 0,
+    overflowY: "auto",
     gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
     gridAutoRows: "auto",
     gap: tokens.spacingVerticalM,
-    justifyContent: "center",
+    alignContent: "start",
+    justifyContent: "start",
     "@media (max-width: 768px)": {
-      gridTemplateColumns: "1fr",
+      gridTemplateColumns: "repeat(auto-fill,1fr)",
       gap: tokens.spacingVerticalS,
     },
   },
