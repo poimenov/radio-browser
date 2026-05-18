@@ -9,6 +9,7 @@ import {
   PopoverSurface,
   PopoverTrigger,
   Slider,
+  SliderOnChangeData,
 } from "@fluentui/react-components";
 import {
   Heart16Filled,
@@ -65,7 +66,7 @@ export const Player: React.FC<PlayerProps> = ({ station }) => {
   );
 
   const handleVolumeChange = useCallback(
-    (_event: any, data: { value: number }) => {
+    (_event: React.ChangeEvent<HTMLInputElement>, data: SliderOnChangeData) => {
       setVolume(data.value);
     },
     [setVolume],

@@ -13,17 +13,15 @@ export class ListsService {
     this.handler = handler;
   }
 
-  private async getNameAndCounts(
-    listName: string,
-  ): Promise<Result<NameAndCount[], string>> {
-    const result = await this.handler.getJsonStringAsync(listName, []);
-
+  private async parseJsonResponse<T>(
+    result: Result<string, string>,
+  ): Promise<Result<T[], string>> {
     if (!result.ok) {
       return { ok: false, error: result.error };
     }
 
     try {
-      const parsed = JSON.parse(result.value) as NameAndCount[];
+      const parsed = JSON.parse(result.value) as T[];
       return { ok: true, value: parsed };
     } catch (error) {
       return {
@@ -33,52 +31,27 @@ export class ListsService {
     }
   }
 
+  private async getSortedData<T extends { stationcount: number }>(
+    listName: string,
+  ): Promise<Result<T[], string>> {
+    const result = await this.handler.getJsonStringAsync(listName, []);
+    const parsed = await this.parseJsonResponse<T>(result);
+
+    if (!parsed.ok) {
+      return parsed;
+    }
+
+    // Сортируем по убыванию количества станций
+    const sorted = parsed.value.sort((a, b) => b.stationcount - a.stationcount);
+    return { ok: true, value: sorted };
+  }
+
   async getCountries(): Promise<Result<Country[], string>> {
-    const result = await this.handler.getJsonStringAsync("countries", []);
-
-    if (!result.ok) {
-      return { ok: false, error: result.error };
-    }
-
-    try {
-      const parsed = JSON.parse(result.value) as Country[];
-      // Сортируем по убыванию количества станций
-      const sorted = parsed.sort((a, b) => b.stationcount - a.stationcount);
-      return { ok: true, value: sorted };
-    } catch (error) {
-      return {
-        ok: false,
-        error: error instanceof Error ? error.message : "Parse error",
-      };
-    }
+    return this.getSortedData<Country>("countries");
   }
 
   async getLanguages(): Promise<Result<Language[], string>> {
-    const result = await this.handler.getJsonStringAsync("languages", []);
-
-    if (!result.ok) {
-      return { ok: false, error: result.error };
-    }
-
-    try {
-      const parsed = JSON.parse(result.value) as Language[];
-      // Сортируем по убыванию количества станций
-      const sorted = parsed.sort((a, b) => b.stationcount - a.stationcount);
-      return { ok: true, value: sorted };
-    } catch (error) {
-      return {
-        ok: false,
-        error: error instanceof Error ? error.message : "Parse error",
-      };
-    }
-  }
-
-  async getCountryCodes(): Promise<Result<NameAndCount[], string>> {
-    return this.getNameAndCounts("countrycodes");
-  }
-
-  async getCodecs(): Promise<Result<NameAndCount[], string>> {
-    return this.getNameAndCounts("codecs");
+    return this.getSortedData<Language>("languages");
   }
 
   async getTags(

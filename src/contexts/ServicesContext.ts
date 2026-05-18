@@ -3,7 +3,6 @@ import { HttpHandler } from '../services/HttpHandler';
 import { ApiUrlProvider } from '../services/ApiUrlProvider';
 import { FavoritesDataAccess } from '../services/FavoritesDataAccess';
 import { StationsService } from '../services/StationsService';
-import { HistoryDataAccess } from '../services/HistoryDataAccess';
 import { ListsService } from '../services/ListsService';
 import AppSettingsService from '../services/AppSettingsService';
 import { AppSettings } from '../types/AppSettings';
@@ -14,7 +13,6 @@ interface ServicesContextValue {
   favoritesDataAccess: FavoritesDataAccess;
   stationsService: StationsService;
   listsService: ListsService;
-  historyDataAccess: HistoryDataAccess;
   appSettings: AppSettings;
   appSettingsService: AppSettingsService;
 }
@@ -46,7 +44,6 @@ export const ServicesProvider: React.FC<ServicesProviderProps> = ({ children }) 
         const favoritesDataAccess = new FavoritesDataAccess();
         const stationsService = new StationsService(httpHandler, favoritesDataAccess, settings);
         const listsService = new ListsService(httpHandler);
-        const historyDataAccess = new HistoryDataAccess(settings);
 
         setServicesValue({
           httpHandler,
@@ -54,7 +51,6 @@ export const ServicesProvider: React.FC<ServicesProviderProps> = ({ children }) 
           favoritesDataAccess,
           stationsService,
           listsService,
-          historyDataAccess,
           appSettings: settings,
           appSettingsService
         });

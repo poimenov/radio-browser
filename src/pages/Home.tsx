@@ -41,15 +41,18 @@ export const Home: React.FC = () => {
     navigator.language.indexOf("-") !== -1
       ? navigator.language.split("-")[1]
       : navigator.language;
-  const mode: SearchMode = {
-    type: "search",
-    params: { countryCode: currentCountryCode },
-  };
+
   const { state } = useAppState();
   const styles = useStyles();
-  mode.params.countryCode = currentCountryCode;
-  mode.params.tag = undefined;
-  mode.params.name = undefined;
+
+  const mode: SearchMode = {
+    type: "search",
+    params: {
+      countryCode: currentCountryCode,
+      tag: undefined,
+      name: undefined,
+    },
+  };
   const filterMode: FilterMode = { type: "country" };
 
   return (

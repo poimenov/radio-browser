@@ -119,23 +119,6 @@ class AppSettingsService {
     return {};
   }
 
-  // Специфичные методы для работы с настройками
-  getTitleDelay(): number {
-    let delay = this.get('getTitleDelay');
-    if (delay > 5000) {
-      delay = 5000;
-    }
-    return delay;
-  }
-
-  setTitleDelay(value: number): void {
-    if (value > 5000) {
-      this.saveSettings({ getTitleDelay: value });
-    } else {
-      this.saveSettings({ getTitleDelay: value });
-    }
-  }
-
   // Сброс пользовательских настроек
   resetToDefault(): void {
     localStorage.removeItem('userAppSettings');
@@ -152,8 +135,6 @@ export const useAppSettings = () => {
     getSetting: <K extends keyof AppSettings>(key: K) => service.get(key),
     saveSettings: (settings: Partial<AppSettings>) => service.saveSettings(settings),
     resetToDefault: () => service.resetToDefault(),
-    getTitleDelay: () => service.getTitleDelay(),
-    setTitleDelay: (value: number) => service.setTitleDelay(value),
     getAppDataPath: () => service.getAppDataPath(),
     getDataBasePath: () => service.getDataBasePath()
   };
