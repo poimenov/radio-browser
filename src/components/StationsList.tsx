@@ -359,7 +359,7 @@ export const StationsList: React.FC<StationListProps> = ({ mode, filter }) => {
 
   return (
     <div className={styles.container}>
-      {mode.type === "search" || mode.type === "favorites" && (
+      {(mode.type === "search" || mode.type === "favorites") && (
         <div className={styles.filters}>
           <SearchBox
             placeholder="Station name..."

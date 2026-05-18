@@ -1,5 +1,5 @@
 import { DBSchema, IDBPDatabase, openDB } from 'idb';
-import { Station, HistoryRecord } from '../types/services.types';
+import { Station } from '../types/services.types';
 
 // Общий интерфейс базы данных
 export interface RadioBrowserDB extends DBSchema {
@@ -8,18 +8,12 @@ export interface RadioBrowserDB extends DBSchema {
     value: Station;
     indexes: { 'id': string, 'name': string };
   };
-  history: {
-    key: string;
-    value: HistoryRecord;
-    indexes: { 'startTime': Date, 'stationName': string, 'title': string };
-  };
 }
 
 // Конфигурация базы данных
 const DB_NAME = 'RadioBrowserDB';
 const DB_VERSION = 1;
 const FAVORITES_STORE_NAME = 'favorites';
-const HISTORY_STORE_NAME = 'history';
 
 // Класс для управления базой данных
 class Database {
@@ -33,14 +27,7 @@ class Database {
           const favoritesStore = db.createObjectStore(FAVORITES_STORE_NAME, { keyPath: 'id' });
           favoritesStore.createIndex('id', 'id', { unique: true });
           favoritesStore.createIndex('name', 'name', { unique: false });
-        }
-        
-        if (!db.objectStoreNames.contains(HISTORY_STORE_NAME)) {
-          const historyStore = db.createObjectStore(HISTORY_STORE_NAME, { keyPath: 'startTime' });
-          historyStore.createIndex('startTime', 'startTime', { unique: true });
-          historyStore.createIndex('stationName', 'stationName', { unique: false });
-          historyStore.createIndex('title', 'title', { unique: false });
-        }
+        }      
       }
     });
   }

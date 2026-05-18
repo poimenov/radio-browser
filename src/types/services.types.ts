@@ -40,12 +40,6 @@ export type FilterMode =
   | { type: "country" }
   | { type: "tag" }
 
-export interface HistoryRecord {
-  startTime: Date;
-  title: string;
-  stationName: string;
-}
-
 // API Response types
 export interface ApiStation {
   stationuuid: string;
