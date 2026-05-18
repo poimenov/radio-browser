@@ -7,10 +7,7 @@ import {
   Tag24Regular,
 } from "@fluentui/react-icons";
 
-const mode: SearchMode = {
-  type: "search",
-  params: { tag: "" },
-};
+
 
 const useStyles = makeStyles({
   container: {
@@ -49,9 +46,14 @@ export const StationsByTag: React.FC = () => {
 
   // Декодируем tag из URL (так как он может содержать спецсимволы)
   const decodedTag = tag ? decodeURIComponent(tag) : "";
-  mode.params.tag = decodedTag;
-  mode.params.countryCode = undefined;
-  mode.params.name = undefined;
+  const mode: SearchMode = {
+    type: "search",
+    params: {
+      tag: decodedTag,
+      countryCode: undefined,
+      name: undefined
+    },
+  };
   const filterMode: FilterMode = { type: "tag" };
 
   return (

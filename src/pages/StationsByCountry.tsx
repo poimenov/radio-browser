@@ -8,11 +8,6 @@ import {
   Flag24Regular,
 } from "@fluentui/react-icons";
 
-const mode: SearchMode = {
-  type: "search",
-  params: { countryCode: "" },
-};
-
 const useStyles = makeStyles({
   container: {
     display: "flex",
@@ -49,9 +44,14 @@ export const StationsByCountry: React.FC = () => {
     navigator.language.indexOf("-") !== -1
       ? navigator.language.split("-")[1]
       : navigator.language;
-  mode.params.countryCode = code ?? countryCode;
-  mode.params.tag = undefined;
-  mode.params.name = undefined;
+  const mode: SearchMode = {
+    type: "search",
+    params: {
+      countryCode: code ?? countryCode,
+      tag: undefined,
+      name: undefined
+    },
+  };
   const filteredCountry = (countries: Country[], code: string) => {
     return countries.filter((c) => c.iso_3166_1 === code.toUpperCase())[0]?.name || code;
   };
@@ -69,6 +69,8 @@ export const StationsByCountry: React.FC = () => {
     }
   }
   const filterMode: FilterMode = { type: "country" };
+  const resolvedCountryCode = (mode.params.countryCode ?? countryCode) as string;
+  const resolvedCountryCodeLower = resolvedCountryCode ? resolvedCountryCode.toLowerCase() : "";
 
   return (
     <div
@@ -79,10 +81,12 @@ export const StationsByCountry: React.FC = () => {
       <div className={styles.header}>
         <Flag24Regular />
         <span>Stations By Country:</span>
-        <img style={{ height: "16px" }} src={`./images/flags/${mode.params.countryCode.toLowerCase()}.svg`} alt={countryName(mode.params.countryCode)} />
-        <span>{countryName(mode.params.countryCode)}</span>
+        {resolvedCountryCodeLower ? (
+          <img style={{ height: "16px" }} src={`./images/flags/${resolvedCountryCodeLower}.svg`} alt={countryName(resolvedCountryCode)} />
+        ) : null}
+        <span>{countryName(resolvedCountryCode)}</span>
       </div>
-      <StationsList key={mode.params.countryCode} mode={mode} filter={filterMode} />
+      <StationsList key={resolvedCountryCode} mode={mode} filter={filterMode} />
     </div>
   );
 };

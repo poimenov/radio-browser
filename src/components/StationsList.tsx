@@ -172,7 +172,7 @@ const useStyles = makeStyles({
 });
 
 export const StationsList: React.FC<StationListProps> = ({ mode, filter }) => {
-  const { stationsService } = useServices();
+  const { stationsService, appSettings } = useServices();
   const styles = useStyles();
   const [stations, setStations] = useState<Station[]>([]);
   const [loading, setLoading] = useState(false);
@@ -181,7 +181,7 @@ export const StationsList: React.FC<StationListProps> = ({ mode, filter }) => {
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
   const [currentMode, setCurrentMode] = useState<SearchMode>(mode);
-  const pageSize = 40; // Количество станций за одну загрузку
+  const pageSize = appSettings.limitCount; // Количество станций за одну загрузку
   const abortControllerRef = useRef<AbortController | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -319,6 +319,10 @@ export const StationsList: React.FC<StationListProps> = ({ mode, filter }) => {
         mode.params.name = searchTerm.trim();
         setMode({ ...mode });
       }
+      else if (mode.type === "favorites") {
+        mode.name = searchTerm.trim();
+        setMode({ ...mode });
+      }
     }
   };
 
@@ -355,7 +359,7 @@ export const StationsList: React.FC<StationListProps> = ({ mode, filter }) => {
 
   return (
     <div className={styles.container}>
-      {mode.type === "search" && filter && (
+      {mode.type === "search" || mode.type === "favorites" && (
         <div className={styles.filters}>
           <SearchBox
             placeholder="Station name..."
@@ -363,8 +367,8 @@ export const StationsList: React.FC<StationListProps> = ({ mode, filter }) => {
             onChange={handleSearchChange}
             onKeyDown={handleKeyDown}
           />
-          {filter.type === "country" && <TagFilter mode={mode} setMode={setMode} />}
-          {filter.type === "tag" && <CountryFilter mode={mode} setMode={setMode} />}
+          {filter && filter.type === "country" && <TagFilter mode={mode} setMode={setMode} />}
+          {filter && filter.type === "tag" && <CountryFilter mode={mode} setMode={setMode} />}
         </div>
       )}
       <div className={styles.list}>

@@ -6,10 +6,6 @@ import {
   Heart24Regular,
 } from "@fluentui/react-icons";
 
-const mode: SearchMode = {
-  type: "favorites",
-};
-
 const useStyles = makeStyles({
   container: {
     display: "flex",
@@ -43,6 +39,9 @@ const useStyles = makeStyles({
 export const Favorites: React.FC = () => {
   const { state } = useAppState();
   const styles = useStyles();
+  const mode: SearchMode = {
+    type: "favorites",
+  };
   return (
     <div
       className={
