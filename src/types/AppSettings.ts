@@ -16,8 +16,9 @@ export interface AppSettings {
   hideBroken: boolean;
   defaultOrder: string;
   reverseOrder: boolean;
-  codec: string; // Изменено с string | null на string
-  language: string; // Изменено с string | null на string
+  historyTruncateCount: number;
+  codec: string; 
+  language: string; 
 }
 
 // Значения по умолчанию
@@ -30,6 +31,7 @@ export const defaultAppSettings: AppSettings = {
   hideBroken: true,
   defaultOrder: 'votes',
   reverseOrder: true,
-  codec: '', // Пустая строка вместо null
-  language: '' // Пустая строка вместо null
+  historyTruncateCount: 100,
+  codec: '', 
+  language: ''
 };

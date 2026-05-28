@@ -36,6 +36,12 @@ export type SearchMode =
   | { type: "byVotes" }
   | { type: "byClicks" };
 
+export interface HistoryRecord {
+  startTime: Date;
+  title: string;
+  stationName: string;
+}  
+
 export type FilterMode =
   | { type: "country" }
   | { type: "tag" }

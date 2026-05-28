@@ -25,7 +25,7 @@ const useStyles = makeStyles({
     minHeight: 0,
     overflow: "hidden",
     paddingTop: 0,
-    paddingBottom: 0,
+    paddingBottom: tokens.spacingVerticalS,
     paddingLeft: tokens.spacingHorizontalL,
     paddingRight: tokens.spacingHorizontalL,
   },

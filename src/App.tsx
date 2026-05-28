@@ -10,6 +10,7 @@ import { StationsByTag } from "./pages/StationsByTag";
 import { StationsByCountry } from "./pages/StationsByCountry";
 import { ServicesProvider } from "./contexts/ServicesContext";
 import { AppStateProvider } from "./contexts/AppStateContext";
+import { History } from "./pages/History";
 
 function App(): React.ReactElement {
   return (
@@ -28,6 +29,7 @@ function App(): React.ReactElement {
             />
             <Route path="tags" element={<Tags />} />
             <Route path="stationsByTag/:tag" element={<StationsByTag />} />
+            <Route path="history" element={<History />} />
           </Route>
         </Routes>
       </AppStateProvider>

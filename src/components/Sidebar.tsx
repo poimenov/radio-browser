@@ -17,6 +17,7 @@ import {
   CursorClick20Regular,
   Flag20Regular,
   Tag20Regular,
+  History20Regular,
 } from "@fluentui/react-icons";
 
 interface SidebarProps {
@@ -198,6 +199,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
         >
           <NavItem className={styles.navItem} icon={<CursorClick20Regular />} value="/stationsByClicks">
             By Clicks
+          </NavItem>
+        </Tooltip>
+        <Tooltip
+          content="History of played stations"
+          relationship="label"
+          positioning={positioning}
+        >
+          <NavItem className={styles.navItem} icon={<History20Regular />} value="/history">
+            History
           </NavItem>
         </Tooltip>
       </NavDrawerBody>

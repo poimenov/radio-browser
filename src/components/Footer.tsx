@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAppState } from "../contexts/AppStateContext";
 import { makeStyles, tokens, Text } from "@fluentui/react-components";
 import { nowPlaying } from "../services/MetadataService";
+import { useServices } from "../contexts/ServicesContext";
 
 const useStyles = makeStyles({
   footer: {
@@ -30,6 +31,7 @@ export const Footer = () => {
   const styles = useStyles();
   const { state } = useAppState();
   const [title, setTitle] = useState(defaultTitle);
+  const { historyDataAccess } = useServices();
 
   useEffect(() => {
     if (!state.selectedStation) {
@@ -46,6 +48,14 @@ export const Footer = () => {
         return;
       }
       setTitle(info.title);
+      // Сохранение в историю
+      if (state.selectedStation && info.title && info.title !== defaultTitle) {
+        historyDataAccess.add({
+          startTime: new Date(),
+          title: info.title,
+          stationName: state.selectedStation.name,
+        }).catch(console.error);
+      }
     });
 
     return () => subscription.unsubscribe();
