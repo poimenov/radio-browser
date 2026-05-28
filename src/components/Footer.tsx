@@ -1,5 +1,7 @@
-// src/components/Footer.tsx
+import { useEffect, useState } from 'react';
+import { useAppState } from "../contexts/AppStateContext";
 import { makeStyles, tokens, Text } from "@fluentui/react-components";
+import { nowPlaying } from "../services/MetadataService";
 
 const useStyles = makeStyles({
   footer: {
@@ -10,14 +12,59 @@ const useStyles = makeStyles({
     width: "100%",
     flexShrink: 0,
   },
+  link: {
+    color: tokens.colorNeutralForeground1,
+    textDecoration: "none",
+    "&:hover": {
+      textDecoration: "underline",
+    },
+  },
 });
+
+const defaultTitle = "© 2026 Radio Browser";
+
+const searchUrl = (title: string) =>
+  `https://www.youtube.com/results?search_query=${encodeURIComponent(title)}`;
 
 export const Footer = () => {
   const styles = useStyles();
+  const { state } = useAppState();
+  const [title, setTitle] = useState(defaultTitle);
+
+  useEffect(() => {
+    if (!state.selectedStation) {
+      setTitle(defaultTitle);
+      return;
+    }
+
+    nowPlaying.trackStream(state.selectedStation.urlResolved);
+
+    const subscription = nowPlaying.subscribe((info) => {
+      if (info.error) {
+        console.error("Error receiving metadata:", info.error);
+        setTitle(defaultTitle);
+        return;
+      }
+      setTitle(info.title);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [state.selectedStation]);
+
+  const displayText = state.selectedStation && title !== defaultTitle ? title : defaultTitle;
+  const isLink = state.selectedStation && title !== defaultTitle;
 
   return (
     <div className={styles.footer}>
-      <Text size={200}>© 2026 Radio Browser</Text>
+      <Text size={200}>
+        {isLink ? (
+          <a href={searchUrl(title)} target="_blank" rel="noopener noreferrer" className={styles.link} title="Search on YouTube">
+            {displayText}
+          </a>
+        ) : (
+          displayText
+        )}
+      </Text>
     </div>
   );
 };
