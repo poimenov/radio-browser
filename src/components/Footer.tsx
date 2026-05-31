@@ -8,6 +8,7 @@ const useStyles = makeStyles({
   footer: {
     textAlign: "center",
     padding: tokens.spacingVerticalM,
+    paddingBottom: `calc(${tokens.spacingVerticalM} + env(safe-area-inset-bottom, 0px))`,
     backgroundColor: tokens.colorNeutralBackground1,
     borderTop: `1px solid ${tokens.colorNeutralStroke1}`,
     width: "100%",
