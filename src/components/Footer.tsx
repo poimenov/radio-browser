@@ -35,7 +35,7 @@ export const Footer = () => {
   const { historyDataAccess } = useServices();
 
   useEffect(() => {
-    if (!state.selectedStation) {
+    if (!state.selectedStation || !state.isPlaying) {
       setTitle(defaultTitle);
       return;
     }
@@ -60,7 +60,7 @@ export const Footer = () => {
     });
 
     return () => subscription.unsubscribe();
-  }, [state.selectedStation]);
+  }, [state.selectedStation, state.isPlaying]);
 
   const displayText = state.selectedStation && title !== defaultTitle ? title : defaultTitle;
   const isLink = state.selectedStation && title !== defaultTitle;

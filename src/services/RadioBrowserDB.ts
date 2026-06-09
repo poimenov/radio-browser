@@ -35,7 +35,7 @@ class Database {
           favoritesStore.createIndex('name', 'name', { unique: false });
         }      
         if (!db.objectStoreNames.contains(HISTORY_STORE_NAME)) {
-          const historyStore = db.createObjectStore(HISTORY_STORE_NAME, { keyPath: 'startTime' });
+          const historyStore = db.createObjectStore(HISTORY_STORE_NAME);
           historyStore.createIndex('startTime', 'startTime', { unique: false });
           historyStore.createIndex('stationName', 'stationName', { unique: false });
           historyStore.createIndex('title', 'title', { unique: false });

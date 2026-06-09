@@ -32,12 +32,7 @@ export class HistoryDataAccess {
       const existing = await db.get(HISTORY_STORE_NAME, key);
       
       if (!existing) {
-        // Создаем копию записи с ключом в виде строки
-        const recordToAdd = {
-          ...record,
-          startTime: record.startTime // сохраняем оригинальный Date для использования в коде
-        };
-        await db.add(HISTORY_STORE_NAME, recordToAdd);
+        await db.add(HISTORY_STORE_NAME, record, key);
         // После добавления проверяем и усекаем историю
         this.truncateHistory().catch(console.error);
       }
