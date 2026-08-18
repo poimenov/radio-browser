@@ -71,7 +71,7 @@ const initialState: AppState = {
 const appReducer = (state: AppState, action: AppAction): AppState => {
   switch (action.type) {
     case "SET_SELECTED_STATION":
-      return { ...state, selectedStation: action.payload, isPlaying: false };
+      return { ...state, selectedStation: action.payload, isPlaying: true };
     case "SET_SELECTED_STATION_IS_FAVORITE":
       return { ...state, selectedStationIsFavorite: action.payload };
     case "SET_STATIONS":
