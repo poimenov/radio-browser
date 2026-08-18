@@ -44,6 +44,7 @@ export const StationCard: React.FC<StationCardProps> = ({ station }) => {
         </h3>
         <div className={styles.details}>
           {station.isFavorite ? <Heart16Filled /> : <Heart16Regular />}
+          {station.codec && <span>{station.codec}</span>}
           {station.bitrate > 0 && <span>{station.bitrate} kbps</span>}
         </div>
         {station.tags && (

@@ -173,11 +173,6 @@ export const Header: React.FC<HeaderProps> = ({
             aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
           />
         )}
-        <img
-          src="./logo.svg"
-          alt="Radio Icon"
-          style={{ width: "34px", height: "34px" }}
-        />
         <span className={styles.title}>Radio Browser</span>
       </div>
 
