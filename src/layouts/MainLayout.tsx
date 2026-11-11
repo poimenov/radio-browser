@@ -281,6 +281,15 @@ export const MainLayout: React.FC = () => {
     [localSettings.isDarkMode, localSettings.accentColor],
   );
 
+  useEffect(() => {
+    document.documentElement.style.colorScheme = localSettings.isDarkMode
+      ? "dark"
+      : "light";
+    document
+      .querySelector<HTMLMetaElement>('meta[name="theme-color"]')
+      ?.setAttribute("content", currentTheme.colorNeutralBackground1);
+  }, [currentTheme.colorNeutralBackground1, localSettings.isDarkMode]);
+
   const styles = useStyles();
 
   return (
