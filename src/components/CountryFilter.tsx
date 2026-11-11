@@ -44,9 +44,16 @@ export const CountryFilter = ({ mode, setMode }: CountryFilterProps) => {
 
     const onSelect = (_event: SelectionEvents, data: OptionOnSelectData) => {
         if (mode.type === "search" && data.optionText && countries) {
-            mode.params.countryCode = countries.find((c) => c.name === data.optionText)?.iso_3166_1 || "";
             setValue(data.optionText);
-            setMode({ ...mode });
+            setMode({
+                ...mode,
+                params: {
+                    ...mode.params,
+                    countryCode:
+                        countries.find((c) => c.name === data.optionText)
+                            ?.iso_3166_1 || "",
+                },
+            });
         }
     }
 

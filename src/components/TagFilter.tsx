@@ -45,9 +45,11 @@ export const TagFilter = ({ mode, setMode }: TagFilterProps) => {
 
     const onSelect: ComboboxProps["onOptionSelect"] = (_e, data) => {
         if (mode.type === "search" && data.optionText) {
-            mode.params.tag = data.optionValue;
             setValue(data.optionText);
-            setMode({ ...mode });
+            setMode({
+                ...mode,
+                params: { ...mode.params, tag: data.optionValue },
+            });
         }
     };
 

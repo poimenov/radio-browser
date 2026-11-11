@@ -315,13 +315,14 @@ export const StationsList: React.FC<StationListProps> = ({ mode, filter }) => {
   const handleKeyDown = (ev: React.KeyboardEvent<HTMLInputElement>) => {
     if (ev.key === "Enter") {
       ev.preventDefault();
-      if (mode.type === "search") {
-        mode.params.name = searchTerm.trim();
-        setMode({ ...mode });
+      if (currentMode.type === "search") {
+        setMode({
+          ...currentMode,
+          params: { ...currentMode.params, name: searchTerm.trim() },
+        });
       }
-      else if (mode.type === "favorites") {
-        mode.name = searchTerm.trim();
-        setMode({ ...mode });
+      else if (currentMode.type === "favorites") {
+        setMode({ ...currentMode, name: searchTerm.trim() });
       }
     }
   };
@@ -367,8 +368,8 @@ export const StationsList: React.FC<StationListProps> = ({ mode, filter }) => {
             onChange={handleSearchChange}
             onKeyDown={handleKeyDown}
           />
-          {filter && filter.type === "country" && <TagFilter mode={mode} setMode={setMode} />}
-          {filter && filter.type === "tag" && <CountryFilter mode={mode} setMode={setMode} />}
+          {filter && filter.type === "country" && <TagFilter mode={currentMode} setMode={setMode} />}
+          {filter && filter.type === "tag" && <CountryFilter mode={currentMode} setMode={setMode} />}
         </div>
       )}
       <div className={styles.list}>
