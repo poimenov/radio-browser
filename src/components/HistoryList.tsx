@@ -33,6 +33,7 @@ const useStyles = makeStyles({
     },
     tableWrapper: {
         flex: 1,
+        minHeight: 0,
         overflow: "auto",
         borderRadius: tokens.borderRadiusLarge,
         backgroundColor: tokens.colorNeutralBackground1,
@@ -60,6 +61,12 @@ const useStyles = makeStyles({
         "& .fui-DataGrid__table": {
             width: "100%",
         },
+    },
+    header: {
+        position: "sticky",
+        top: 0,
+        zIndex: 1,
+        backgroundColor: tokens.colorNeutralBackground1,
     },
     timeCell: {
         fontFamily: tokens.fontFamilyMonospace,
@@ -228,7 +235,7 @@ export const HistoryList: React.FC = () => {
                     className={styles.table}
                     style={{ width: "100%" }}
                 >
-                    <DataGridHeader>
+                    <DataGridHeader className={styles.header}>
                         <DataGridRow>
                             {({ renderHeaderCell }) => (
                                 <DataGridHeaderCell>{renderHeaderCell()}</DataGridHeaderCell>
